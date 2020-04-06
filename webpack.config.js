@@ -1,35 +1,73 @@
-const path = require("path");
-const webpack = require("webpack");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+
+/**
+* CleanWebPackPlugin : It cleans the dist folder
+* svg-sprite-loader : make svg to use in our JS code, and convert all the svg into svg sprite
+*/
+
 
 module.exports = {
-  entry: "./src/index.js",
-  mode: "development",
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
-  },
-  resolve: { extensions: ["*", ".js", ".jsx"] },
-  output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
-    filename: "bundle.js"
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "public/"),
-    port: 3000,
-    publicPath: "http://localhost:3000/dist/",
-    hotOnly: true
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
-};
+    mode:'development',
 
+    entry: './src/index.tsx',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+
+    devtool: 'inline-source-map',
+
+    devServer: {
+        contentBase: './dist',
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "babel-loader",
+                options: { presets: ["@babel/env"] }
+            },
+            { 
+                test: /\.ts(x?)$/,
+                exclude: /(node_modules|bower_components)/, 
+                loader: "ts-loader" 
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ],
+            },
+        
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    'file-loader',
+                ],
+            },
+
+            {
+                test: /\.svg$/,
+                loader: 'svg-sprite-loader'
+            }
+
+        ],
+   },
+
+
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'React Setup with Typescript',
+            template : 'public/index.html'
+            
+        }),
+   ]
+};
