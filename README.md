@@ -30,6 +30,60 @@ For importing assests in typescript. -> Need to do some research
 * babel-loader: Webpack loader helper
 
 
+# Bootstrap
+
+[React-Bootstrap](https://react-bootstrap.github.io/) is better option than importing bootstrap, bootstrap has dependency over `jquery` and `popper` which will make the bundle size over 300Kb.
+
+**Important**
+
+When using react-bootstrap, import components like below:
+
+```javascript
+import  Alert  from 'react-bootstrap/Alert';
+```
+
+
+
+Don't use
+
+```javascript
+import { Alert }  from 'react-bootstrap';
+```
+
+Don't know why tree shaking doesn't work on this one.
+
+
+
+# Optimization
+
+## Dividing bundle into multiple chunks
+
+```javascript
+optimization: {
+        splitChunks: {
+            cacheGroups: {
+                
+                reactVendor: {
+                    test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                    chunks: 'initial',
+                    name: 'reactVendor',
+                    enforce: true
+                },
+                
+                gsapVendor: {
+                    test: /gsap/,
+                    chunks: 'initial',
+                    name: 'gsapVendor',
+                    enforce: true
+                },
+                
+            }
+        }
+    }
+
+```
+
+
 
 
 
@@ -44,4 +98,6 @@ import rocket from '@svg/rocket1.svg`;
 * Get more information about `babel` setting with typescript.
 
 * check the config from webpack for HMR and devServer.
+
+* Code-splitting in webpack 
 
