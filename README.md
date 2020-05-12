@@ -1,8 +1,12 @@
+**TODO :**
+
+* change sass compiler, `dart-sass` for latest feature
+
 
 # SCSS Support
 
 * `sass-loader` : loads a `scss/sass` file and compiles it to CSS. `sass-loader` needs `node-sass` or `dart sass`.
-* `node-sass`
+* `node-sass` or `sass for dart-sass`
 * `css-loader` : It handle CSS files
 * `style-loader` : The style-loader takes CSS and inserts it into page, so that styles are active on the page.
 
@@ -19,7 +23,7 @@
 
 # assets.d.ts
 
-For importing assests in typescript. -> Need to do some research
+For importing assests in typescript like svg. -> Need to do some research
 
 
 # Babel
